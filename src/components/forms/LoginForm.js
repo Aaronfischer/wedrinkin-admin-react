@@ -8,10 +8,10 @@ class LoginForm extends Component {
   state = {
     data: {
       email: '',
-      password: '',
+      password: ''
     },
     loading: false,
-    errors: {},
+    errors: {}
   };
 
   onChange = e =>
@@ -27,7 +27,7 @@ class LoginForm extends Component {
     }
   };
 
-  validate = (data) => {
+  validate = data => {
     const errors = {};
     if (!Validator.isEmail(data.email)) {
       errors.email = 'Invalid Email';
@@ -45,22 +45,36 @@ class LoginForm extends Component {
       <Form onSubmit={this.onSubmit}>
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="name@domain.com" value={data.email} onChange={this.onChange}/>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="name@domain.com"
+            value={data.email}
+            onChange={this.onChange}
+          />
           {errors.email && <InlineError text={errors.email} />}
         </Form.Field>
         <Form.Field error={!!errors.password}>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="password" value={data.password} onChange={this.onChange}/>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="password"
+            value={data.password}
+            onChange={this.onChange}
+          />
           {errors.password && <InlineError text={errors.password} />}
         </Form.Field>
         <Button primary>Login</Button>
       </Form>
-    )
+    );
   }
-};
+}
 
 LoginForm.propTypes = {
-  submit: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired
 };
 
 export default LoginForm;
