@@ -7,7 +7,7 @@ export const userLoggedIn = user => ({
 });
 
 export const userLoggedOut = () => ({
-  type: USER_LOGGED_OUT,
+  type: USER_LOGGED_OUT
 });
 
 export const login = credentials => dispatch =>
@@ -17,6 +17,12 @@ export const login = credentials => dispatch =>
   });
 
 export const logout = () => dispatch => {
-    localStorage.removeItem('wedrinkinJWT');
-    dispatch(userLoggedOut());
-  };
+  localStorage.removeItem('wedrinkinJWT');
+  dispatch(userLoggedOut());
+};
+
+export const confirm = token => dispatch =>
+  api.user.confirm(token).then(user => {
+    localStorage.wedrinkinJWT = user.token;
+    dispatch(userLoggedIn(user));
+  });
