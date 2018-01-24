@@ -26,3 +26,10 @@ export const confirm = token => dispatch =>
     localStorage.wedrinkinJWT = user.token;
     dispatch(userLoggedIn(user));
   });
+
+export const resetPasswordRequest = ({ email }) => () =>
+  api.user.resetPasswordRequest(email);
+
+export const validateToken = token => () => api.user.validateToken(token);
+
+export const resetPassword = data => () => api.user.resetPassword(data);
