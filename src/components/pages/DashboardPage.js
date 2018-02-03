@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
 import { allDrinksSelector } from '../../reducers/drinks';
 import AddDrinkCta from '../ctas/AddDrinkCta';
+import DrinkList from '../parts/DrinkList';
 import { fetchDrinks } from '../../actions/drinks';
 
 class DashboardPage extends React.Component {
@@ -16,7 +17,7 @@ class DashboardPage extends React.Component {
       <div>
         {!isConfirmed && <ConfirmEmailMessage />}
 
-        {drinks.length === 0 ? <AddDrinkCta /> : <p>You have drinks!</p>}
+        {drinks.length === 0 ? <AddDrinkCta /> : <DrinkList drinks={drinks} />}
       </div>
     );
   }

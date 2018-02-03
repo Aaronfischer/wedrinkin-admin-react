@@ -22,11 +22,9 @@ export class NewDrinkPage extends React.Component {
     return (
       <Segment>
         <h1>Add new drink to your collection</h1>
-        <SearchDrinkForm onDrinkSelect={this.onDrinkSelect} />
+        {/*<SearchDrinkForm onDrinkSelect={this.onDrinkSelect} />*/}
 
-        {this.state.drink && (
-          <DrinkForm submit={this.addDrink} drink={this.state.drink} />
-        )}
+        <DrinkForm submit={this.addDrink} drink={this.state.drink} />
       </Segment>
     );
   }

@@ -6,7 +6,7 @@ import InlineError from '../messages/InlineError';
 class DrinkForm extends React.Component {
   state = {
     data: {
-      id: this.props.drink.id,
+      // id: this.props.drink.id,
       name: this.props.drink.name,
       img: this.props.drink.img,
       quote: this.props.drink.quote,
@@ -175,13 +175,13 @@ class DrinkForm extends React.Component {
 DrinkForm.propTypes = {
   submit: PropTypes.func.isRequired,
   drink: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    name: PropTypes.string,
     img: PropTypes.string,
     quote: PropTypes.string,
-    temp: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    temp: PropTypes.arrayOf(PropTypes.string),
     wind: PropTypes.string,
-    time: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    time: PropTypes.arrayOf(PropTypes.string),
     city: PropTypes.string,
     country: PropTypes.string,
     region: PropTypes.string,
@@ -190,8 +190,8 @@ DrinkForm.propTypes = {
         item: PropTypes.string,
         amount: PropTypes.string
       })
-    ).isRequired,
-    instructions: PropTypes.string.isRequired
+    ),
+    instructions: PropTypes.string
   }).isRequired
 };
 
