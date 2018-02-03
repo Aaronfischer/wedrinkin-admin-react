@@ -86,8 +86,7 @@ class DrinkForm extends React.Component {
   validate = data => {
     const errors = {};
     if (!data.name) errors.name = "Can't be blank";
-    if (!data.authors) errors.authors = "Can't be blank";
-    if (!data.pages) errors.pages = "Can't be blank";
+    if (!data.instructions) errors.instructions = "Can't be blank";
     return errors;
   };
 
