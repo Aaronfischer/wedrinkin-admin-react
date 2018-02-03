@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Form, Dropdown } from 'semantic-ui-react';
 
-class SearchBookForm extends React.Component {
+class SearchDrinkForm extends React.Component {
   state = {
     query: '',
     loading: false,
     options: [],
-    books: {}
+    drinks: {}
   };
 
   onSearchChange = (e, data) => {
@@ -22,27 +22,27 @@ class SearchBookForm extends React.Component {
   onChange = (e, data) => {
     this.setState({ query: data.value });
     console.log('data.value', data.value);
-    this.props.onBookSelect(this.state.books[data.value]);
+    this.props.onDrinkSelect(this.state.drinks[data.value]);
   };
 
   fetchOptions = () => {
     if (!this.state.query) return;
     this.setState({ loading: true });
     axios
-      .get(`/api/books/search?q=${this.state.query}`)
-      .then(res => res.data.books)
-      .then(books => {
+      .get(`/api/drinks/search?q=${this.state.query}`)
+      .then(res => res.data.drinks)
+      .then(drinks => {
         const options = [];
-        const booksHash = {};
-        books.forEach(book => {
-          booksHash[book.goodreadsId] = book;
+        const drinksHash = {};
+        drinks.forEach(drink => {
+          drinksHash[drink.id] = drink;
           options.push({
-            key: book.goodreadsId,
-            value: book.goodreadsId,
-            text: book.title
+            key: drink.id,
+            value: drink.id,
+            text: drink.name
           });
         });
-        this.setState({ loading: false, options, books: booksHash });
+        this.setState({ loading: false, options, drinks: drinksHash });
       });
   };
 
@@ -52,7 +52,7 @@ class SearchBookForm extends React.Component {
         <Dropdown
           search
           fluid
-          placeholder="Search for a book by title"
+          placeholder="Search for a drink by title"
           value={this.state.query}
           onSearchChange={this.onSearchChange}
           options={this.state.options}
@@ -64,8 +64,8 @@ class SearchBookForm extends React.Component {
   }
 }
 
-SearchBookForm.propTypes = {
-  onBookSelect: PropTypes.func.isRequired
+SearchDrinkForm.propTypes = {
+  onDrinkSelect: PropTypes.func.isRequired
 };
 
-export default SearchBookForm;
+export default SearchDrinkForm;

@@ -2,22 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
-import { allBooksSelector } from '../../reducers/books';
-import AddBookCta from '../ctas/AddBookCta';
+import { allDrinksSelector } from '../../reducers/drinks';
+import AddDrinkCta from '../ctas/AddDrinkCta';
+import { fetchDrinks } from '../../actions/drinks';
 
-const DashboardPage = ({ isConfirmed, books }) => (
-  <div>
-    {!isConfirmed && <ConfirmEmailMessage />}
+class DashboardPage extends React.Component {
+  componentDidMount = () => this.onInit(this.props);
+  onInit = props => props.fetchDrinks();
 
-    {books.length === 0 && <AddBookCta />}
-  </div>
-);
+  render() {
+    const { isConfirmed, drinks } = this.props;
+    return (
+      <div>
+        {!isConfirmed && <ConfirmEmailMessage />}
+
+        {drinks.length === 0 ? <AddDrinkCta /> : <p>You have drinks!</p>}
+      </div>
+    );
+  }
+}
 
 DashboardPage.propTypes = {
   isConfirmed: PropTypes.bool.isRequired,
-  books: PropTypes.arrayOf(
+  fetchDrinks: PropTypes.func.isRequired,
+  drinks: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     })
   ).isRequired
 };
@@ -25,8 +35,8 @@ DashboardPage.propTypes = {
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
-    books: allBooksSelector(state)
+    drinks: allDrinksSelector(state)
   };
 }
 
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps, { fetchDrinks })(DashboardPage);

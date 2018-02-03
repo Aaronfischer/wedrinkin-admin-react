@@ -14,5 +14,10 @@ export default {
       axios.post('/api/auth/reset-password-request', { email }),
     validateToken: token => axios.post('/api/auth/validate-token', { token }),
     resetPassword: data => axios.post('/api/auth/reset-password', { data })
+  },
+  drinks: {
+    fetchAll: () => axios.get('/api/drinks').then(res => res.data.drinks),
+    create: drink =>
+      axios.post('/api/drinks', { drink }).then(res => res.data.drink)
   }
 };
