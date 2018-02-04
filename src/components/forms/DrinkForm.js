@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Grid, Segment, Image } from 'semantic-ui-react';
+import { Form, Button, Grid, Segment, Image, TextArea } from 'semantic-ui-react';
 import InlineError from '../messages/InlineError';
 
 class DrinkForm extends React.Component {
   state = {
-    data: {
-      // id: this.props.drink.id,
-      name: this.props.drink.name,
-      img: this.props.drink.img,
-      quote: this.props.drink.quote,
-      temp: this.props.drink.temp,
-      wind: this.props.drink.wind,
-      time: this.props.drink.time,
-      city: this.props.drink.city,
-      country: this.props.drink.country,
-      region: this.props.drink.resgion,
-      ingredients: this.props.drink.ingredients,
-      instructions: this.props.drink.instructions
-    },
+    // data: {
+    //   // id: this.props.drink.id,
+    //   name: this.props.drink.name,
+    //   img: this.props.drink.img,
+    //   quote: this.props.drink.quote,
+    //   temp: this.props.drink.temp,
+    //   wind: this.props.drink.wind,
+    //   time: this.props.drink.time,
+    //   city: this.props.drink.city,
+    //   country: this.props.drink.country,
+    //   region: this.props.drink.resgion,
+    //   ingredients: this.props.drink.ingredients,
+    //   instructions: this.props.drink.instructions
+    // },
     // covers: this.props.drink.covers,
     index: 0,
     loading: false,
@@ -26,6 +26,7 @@ class DrinkForm extends React.Component {
   };
 
   componentWillReceiveProps(props) {
+    console.log('props', props);
     this.setState({
       data: {
         id: props.drink.id,
@@ -99,7 +100,7 @@ class DrinkForm extends React.Component {
           <Grid columns={2} fluid="true" stackable>
             <Grid.Row>
               <Grid.Column>
-                <Form.Field error={!!errors.name}>
+                {/*<Form.Field error={!!errors.name}>
                   <label htmlFor="name">Drink Name</label>
                   <input
                     type="text"
@@ -140,8 +141,8 @@ class DrinkForm extends React.Component {
 
                 <Form.Field error={!!errors.instructions}>
                   <label htmlFor="instructions">Instructions</label>
-                  <input
-                    type="text"
+                  <TextArea
+                    autoHeight
                     id="instructions"
                     name="instructions"
                     placeholder="Instructions"
@@ -149,7 +150,7 @@ class DrinkForm extends React.Component {
                     onChange={this.onChange}
                   />
                   {errors.instructions && <InlineError text={errors.instructions} />}
-                </Form.Field>
+                </Form.Field>*/}
               </Grid.Column>
 
               {/*<Grid.Column>
@@ -192,7 +193,7 @@ DrinkForm.propTypes = {
       })
     ),
     instructions: PropTypes.string
-  }).isRequired
+  })
 };
 
 export default DrinkForm;

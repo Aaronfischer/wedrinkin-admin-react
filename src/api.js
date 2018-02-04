@@ -17,7 +17,13 @@ export default {
   },
   drinks: {
     fetchAll: () => axios.get('/api/drinks').then(res => res.data.drinks),
+    fetch: id =>
+      axios.get(`/api/drinks/${id}`).then(res => res.data.drink),
     create: drink =>
-      axios.post('/api/drinks', { drink }).then(res => res.data.drink)
+      axios.post('/api/drinks', { drink }).then(res => res.data.drink),
+    update: drink =>
+      axios
+        .patch(`/api/drinks/${drink._id}`, { drink })
+        .then(res => res.data.drink)
   }
 };

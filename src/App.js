@@ -9,6 +9,8 @@ import SignupPage from './components/pages/SignupPage';
 import ConfirmationPage from './components/pages/ConfirmationPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import DrinksPage from './components/pages/DrinksPage';
+import DrinkPage from './components/pages/DrinkPage';
 import NewDrinkPage from './components/pages/NewDrinkPage';
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
@@ -49,6 +51,18 @@ const App = ({ location, isAuthenticated }) => (
       path="/dashboard"
       exact
       component={DashboardPage}
+    />
+    <UserRoute
+      location={location}
+      path="/drinks"
+      exact
+      component={DrinksPage}
+    />
+    <UserRoute
+      location={location}
+      path="/drinks/:id"
+      exact
+      component={DrinkPage}
     />
     <UserRoute
       location={location}
