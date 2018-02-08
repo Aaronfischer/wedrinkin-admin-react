@@ -32,12 +32,18 @@ const drinkUpdated = data => ({
 export const fetchDrinks = () => dispatch =>
   api.drinks
     .fetchAll()
-    .then(drinks => dispatch(drinksFetched(normalize(drinks, [drinkSchema]))));
+    .then(drinks => {
+      console.log('fetchDrinks', drinks);
+      return dispatch(drinksFetched(normalize(drinks, [drinkSchema])))
+    });
 
 export const fetchDrink = data => dispatch =>
   api.drinks
     .fetch(data)
-    .then(drink => dispatch(drinkFetched(normalize(drink, [drinkSchema]))));
+    .then(drink => {
+      console.log('drink', drink);
+      return dispatch(drinkFetched(normalize(drink, drinkSchema)))
+    });
 
 export const createDrink = data => dispatch =>
   api.drinks

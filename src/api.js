@@ -18,12 +18,15 @@ export default {
   drinks: {
     fetchAll: () => axios.get('/api/drinks').then(res => res.data.drinks),
     fetch: id =>
-      axios.get(`/api/drinks/${id}`).then(res => res.data.drink),
+      axios.get(`/api/drinks/${id}`).then(res => {
+        console.log('res', res);
+        return res.data.drinks;
+      }),
     create: drink =>
-      axios.post('/api/drinks', { drink }).then(res => res.data.drink),
+      axios.post('/api/drinks', { drink }).then(res => res.data.drinks),
     update: drink =>
       axios
         .patch(`/api/drinks/${drink._id}`, { drink })
-        .then(res => res.data.drink)
+        .then(res => res.data.drinks)
   }
 };

@@ -5,22 +5,31 @@ export default function drinks(state = {}, action = {}) {
   switch (action.type) {
     case DRINKS_FETCHED:
     case DRINK_CREATED:
+      console.log('drinks_fetched', {...state, ...action.data.entities.drinks});
       return { ...state, ...action.data.entities.drinks };
     case DRINK_FETCHED:
-      return { ...state, ...action.data.entities.drink };
+      console.log('drink_fetched', {...state, ...action.data.entities.drinks});
+      return { ...state, ...action.data.entities.drinks };
     default:
       return state;
   }
 }
 
 // Selectors
-export const drinksSelector = state => state.drinks;
+export const drinksSelector = state => {
+  console.log('drinksSelector', state);
+  return state.drinks
+};
 
-export const allDrinksSelector = createSelector(drinksSelector, drinksHash =>
-  Object.values(drinksHash)
-);
+export const allDrinksSelector = createSelector(drinksSelector, drinksHash => {
+  console.log('allDrinksSelector', drinksHash);
+  return Object.values(drinksHash)
+});
 
-export const drinkSelector = state => {
+export const drinkSelector = (state, id) => {
   console.log('drinkSelector state', state);
-  return state.drink;
+  if (state.drinks && id) {
+    return state.drinks[id];
+  }
+  return null;
 };

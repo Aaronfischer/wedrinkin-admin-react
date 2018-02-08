@@ -8,20 +8,11 @@ import DrinkForm from '../forms/DrinkForm';
 import { updateDrink, fetchDrink } from '../../actions/drinks';
 
 export class DrinkPage extends React.Component {
-  state = {
-    drink: null
-  };
-
-  // componentDidMount(props) {
-  //   console.log('componentDidMount props', props);
-  // }
-  componentDidMount = props => {
-    console.log('componentDidMount', props);
-    return this.onInit(this.props);
-  };
+  componentDidMount = () => this.onInit(this.props);
   onInit = props => {
     console.log('onInit', props);
     const id = props.match.params.id;
+    console.log('id', id);
     return props.fetchDrink(id);
   };
 
@@ -29,10 +20,12 @@ export class DrinkPage extends React.Component {
     this.props.updateDrink(drink).then(() => console.log('save'));
 
   render() {
+    const { drink } = this.props;
+    console.log('render drink', drink);
     return (
       <Segment>
         <h1>Edit Drink</h1>
-        <DrinkForm submit={this.saveDrink} drink={this.state.drink} />
+        <DrinkForm submit={this.saveDrink} drink={drink} />
       </Segment>
     );
   }
@@ -41,19 +34,20 @@ export class DrinkPage extends React.Component {
 DrinkPage.propTypes = {
   fetchDrink: PropTypes.func.isRequired,
   updateDrink: PropTypes.func.isRequired,
+  drink: PropTypes.object,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log('state', state);
-  console.log('ownProps', ownProps);
-  console.log('params.id', ownProps.match.params.id);
+  console.log('mapStateToProps state', state);
   const id = ownProps.match.params.id;
-  return {
-    drink: state.drink
+  let mapState = {
+    drink: drinkSelector(state, id)
   };
+  console.log('mapState', mapState);
+  return mapState;
 }
 
 export default connect(mapStateToProps, { updateDrink, fetchDrink })(DrinkPage);

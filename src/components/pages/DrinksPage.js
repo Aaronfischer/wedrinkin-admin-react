@@ -8,7 +8,10 @@ import { fetchDrinks } from '../../actions/drinks';
 
 class DrinksPage extends React.Component {
   componentDidMount = () => this.onInit(this.props);
-  onInit = props => props.fetchDrinks();
+  onInit = props => {
+    console.log('onInit', props);
+    return props.fetchDrinks()
+  };
 
   render() {
     const { isConfirmed, drinks } = this.props;
@@ -30,9 +33,12 @@ DrinksPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return {
+  console.log('mapStateToProps', state);
+  let mapState = {
     drinks: allDrinksSelector(state)
   };
+  console.log('mapState', mapState);
+  return mapState;
 }
 
 export default connect(mapStateToProps, { fetchDrinks })(DrinksPage);
