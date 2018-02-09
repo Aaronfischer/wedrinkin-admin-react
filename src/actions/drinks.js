@@ -33,7 +33,6 @@ export const fetchDrinks = () => dispatch =>
   api.drinks
     .fetchAll()
     .then(drinks => {
-      console.log('fetchDrinks', drinks);
       return dispatch(drinksFetched(normalize(drinks, [drinkSchema])))
     });
 

@@ -10,9 +10,7 @@ import { updateDrink, fetchDrink } from '../../actions/drinks';
 export class DrinkPage extends React.Component {
   componentDidMount = () => this.onInit(this.props);
   onInit = props => {
-    console.log('onInit', props);
     const id = props.match.params.id;
-    console.log('id', id);
     return props.fetchDrink(id);
   };
 
@@ -25,7 +23,7 @@ export class DrinkPage extends React.Component {
     return (
       <Segment>
         <h1>Edit Drink</h1>
-        <DrinkForm submit={this.saveDrink} drink={drink} />
+        {drink && <DrinkForm submit={this.saveDrink} drink={drink} />}
       </Segment>
     );
   }
@@ -41,7 +39,6 @@ DrinkPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log('mapStateToProps state', state);
   const id = ownProps.match.params.id;
   let mapState = {
     drink: drinkSelector(state, id)
