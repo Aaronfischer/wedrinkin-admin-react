@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Grid, Segment, Image, TextArea } from 'semantic-ui-react';
+import {
+  Form,
+  Icon,
+  Button,
+  Grid,
+  Segment,
+  Image,
+  TextArea,
+  Dropdown
+} from 'semantic-ui-react';
 import InlineError from '../messages/InlineError';
+import { tempOptions } from '../common/temp-options';
+import { timeOptions } from '../common/time-options';
 
 class DrinkForm extends React.Component {
   state = {
@@ -19,7 +30,6 @@ class DrinkForm extends React.Component {
       ingredients: this.props.drink.ingredients,
       instructions: this.props.drink.instructions
     },
-    // covers: this.props.drink.covers,
     index: 0,
     loading: false,
     errors: {}
@@ -42,6 +52,7 @@ class DrinkForm extends React.Component {
         ingredients: props.drink.ingredients,
         instructions: props.drink.instructions
       },
+      loading: false
       // covers: props.drink.covers
     });
   }
@@ -50,6 +61,20 @@ class DrinkForm extends React.Component {
     this.setState({
       ...this.state,
       data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
+
+  onIngredientsChange = (field, i, e) => {
+    // deep copy this.state
+    let stateCopy = JSON.parse(JSON.stringify(this.state));
+    // notify the value on the array object directly
+    stateCopy.data[field][i][e.target.name] = e.target.value;
+    this.setState(stateCopy);
+  };
+
+  onDropdownChange = (e, data) =>
+    this.setState({
+      ...this.state,
+      data: { ...this.state.data, [data.name]: data.value }
     });
 
   onChangeNumber = e =>
@@ -82,6 +107,30 @@ class DrinkForm extends React.Component {
           this.setState({ errors: err.response.data.errors, loading: false })
         );
     }
+  };
+
+  removeIngredient = (field, index, e) => {
+    this.setState({
+      ...this.state,
+      data: {
+        ...this.state.data,
+        ingredients: this.state.data.ingredients.filter((_, i) => i !== index)
+      }
+    });
+  };
+
+  addIngredient = e => {
+    let ingredient = {
+      amount: '',
+      item: ''
+    };
+    this.setState({
+      ...this.state,
+      data: {
+        ...this.state.data,
+        ingredients: [...this.state.data.ingredients, ingredient]
+      }
+    });
   };
 
   validate = data => {
@@ -128,6 +177,91 @@ class DrinkForm extends React.Component {
                   {errors.img && <InlineError text={errors.img} />}
                 </Form.Field>
 
+                <Form.Field error={!!errors.temp}>
+                  <label htmlFor="temp">Temperature</label>
+                  <Dropdown
+                    placeholder="Temperature"
+                    id="temp"
+                    name="temp"
+                    fluid
+                    multiple
+                    search
+                    selection
+                    value={data.temp}
+                    options={tempOptions}
+                    onChange={this.onDropdownChange}
+                  />
+                  {errors.temp && <InlineError text={errors.temp} />}
+                </Form.Field>
+
+                <Form.Field error={!!errors.time}>
+                  <label htmlFor="time">Time</label>
+                  <Dropdown
+                    placeholder="Time"
+                    id="time"
+                    name="time"
+                    fluid
+                    multiple
+                    search
+                    selection
+                    value={data.time}
+                    options={timeOptions}
+                    onChange={this.onDropdownChange}
+                  />
+                  {errors.time && <InlineError text={errors.time} />}
+                </Form.Field>
+
+                <Form.Field error={!!errors.ingredients}>
+                  <label htmlFor="ingredients">Ingredients</label>
+                  {data.ingredients.map((el, i) => {
+                    return (
+                      <div className="ingredient-item" key={i}>
+                        <label htmlFor="item">Item</label>
+                        <input
+                          type="text"
+                          id="item"
+                          name="item"
+                          placeholder="Item"
+                          value={el.item}
+                          onChange={this.onIngredientsChange.bind(
+                            this,
+                            'ingredients',
+                            i
+                          )}
+                        />
+                        <label htmlFor="amount">Amount</label>
+                        <input
+                          type="text"
+                          id="amount"
+                          name="amount"
+                          placeholder="Amount"
+                          value={el.amount}
+                          onChange={this.onIngredientsChange.bind(
+                            this,
+                            'ingredients',
+                            i
+                          )}
+                        />
+                        <Button
+                          type="button"
+                          icon
+                          onClick={this.removeIngredient.bind(
+                            this,
+                            'ingredients',
+                            i
+                          )}
+                        >
+                          <Icon name="close" />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                  <Button type="button" onClick={this.addIngredient}>Add Ingredient</Button>
+                  {errors.ingredients && (
+                    <InlineError text={errors.ingredients} />
+                  )}
+                </Form.Field>
+
                 <Form.Field error={!!errors.quote}>
                   <label htmlFor="quote">Quote</label>
                   <input
@@ -151,7 +285,9 @@ class DrinkForm extends React.Component {
                     value={data.instructions}
                     onChange={this.onChange}
                   />
-                  {errors.instructions && <InlineError text={errors.instructions} />}
+                  {errors.instructions && (
+                    <InlineError text={errors.instructions} />
+                  )}
                 </Form.Field>
               </Grid.Column>
 
