@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { drinkSelector } from '../../reducers/drinks';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import SearchDrinkForm from '../forms/SearchDrinkForm';
 import DrinkForm from '../forms/DrinkForm';
 import { updateDrink, fetchDrink } from '../../actions/drinks';
@@ -21,10 +21,10 @@ export class DrinkPage extends React.Component {
     const { drink } = this.props;
     console.log('render drink', drink);
     return (
-      <Segment>
+      <Container>
         <h1>Edit Drink</h1>
         {drink && <DrinkForm submit={this.saveDrink} drink={drink} />}
-      </Segment>
+      </Container>
     );
   }
 }

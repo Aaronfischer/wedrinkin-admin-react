@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Header,
   Form,
   Icon,
   Button,
@@ -86,15 +87,6 @@ class DrinkForm extends React.Component {
       }
     });
 
-  // changeCover = () => {
-  //   const { index, covers } = this.state;
-  //   const newIndex = index + 1 >= covers.length ? 0 : index + 1;
-  //   this.setState({
-  //     index: newIndex,
-  //     data: { ...this.state.data, cover: covers[newIndex] }
-  //   });
-  // };
-
   onSubmit = e => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
@@ -141,8 +133,6 @@ class DrinkForm extends React.Component {
   };
 
   render() {
-    console.log('state', this.state);
-    console.log('props', this.props);
     const { errors, data, loading } = this.state;
 
     return (
@@ -213,53 +203,68 @@ class DrinkForm extends React.Component {
 
                 <Form.Field error={!!errors.ingredients}>
                   <label htmlFor="ingredients">Ingredients</label>
-                  {data.ingredients.map((el, i) => {
-                    return (
-                      <div className="ingredient-item" key={i}>
-                        <label htmlFor="item">Item</label>
-                        <input
-                          type="text"
-                          id="item"
-                          name="item"
-                          placeholder="Item"
-                          value={el.item}
-                          onChange={this.onIngredientsChange.bind(
-                            this,
-                            'ingredients',
-                            i
-                          )}
-                        />
-                        <label htmlFor="amount">Amount</label>
-                        <input
-                          type="text"
-                          id="amount"
-                          name="amount"
-                          placeholder="Amount"
-                          value={el.amount}
-                          onChange={this.onIngredientsChange.bind(
-                            this,
-                            'ingredients',
-                            i
-                          )}
-                        />
-                        <Button
-                          type="button"
-                          icon
-                          onClick={this.removeIngredient.bind(
-                            this,
-                            'ingredients',
-                            i
-                          )}
-                        >
-                          <Icon name="close" />
-                        </Button>
-                      </div>
-                    );
-                  })}
-                  <Button type="button" onClick={this.addIngredient}>Add Ingredient</Button>
-                  {errors.ingredients && (
-                    <InlineError text={errors.ingredients} />
-                  )}
+                  <div className="ui form small">
+                    {data.ingredients.length !== 0 &&
+                      data.ingredients.map((el, i) => {
+                        return (
+                          <Form.Group
+                            widths="equal"
+                            className="ingredient-item"
+                            key={i}
+                          >
+                            <Form.Input
+                              fluid
+                              label="Item"
+                              type="text"
+                              id="item"
+                              name="item"
+                              placeholder="Item"
+                              value={el.item}
+                              onChange={this.onIngredientsChange.bind(
+                                this,
+                                'ingredients',
+                                i
+                              )}
+                            />
+                            <Form.Input
+                              fluid
+                              label="Amount"
+                              type="text"
+                              id="amount"
+                              name="amount"
+                              placeholder="Amount"
+                              value={el.amount}
+                              onChange={this.onIngredientsChange.bind(
+                                this,
+                                'ingredients',
+                                i
+                              )}
+                            />
+                            <Button
+                              type="button"
+                              icon
+                              onClick={this.removeIngredient.bind(
+                                this,
+                                'ingredients',
+                                i
+                              )}
+                            >
+                              <Icon name="close" />
+                            </Button>
+                          </Form.Group>
+                        );
+                      })}
+                    <Button
+                      type="button"
+                      size="small"
+                      onClick={this.addIngredient}
+                    >
+                      Add Ingredient
+                    </Button>
+                    {errors.ingredients && (
+                      <InlineError text={errors.ingredients} />
+                    )}
+                  </div>
                 </Form.Field>
 
                 <Form.Field error={!!errors.quote}>
@@ -302,7 +307,9 @@ class DrinkForm extends React.Component {
             </Grid.Row>
 
             <Grid.Row>
-              <Button primary>Save</Button>
+              <Grid.Column>
+                <Form.Button primary>Save</Form.Button>
+              </Grid.Column>
             </Grid.Row>
           </Grid>
         </Form>
