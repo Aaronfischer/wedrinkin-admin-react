@@ -7,7 +7,6 @@ export default function drinks(state = {}, action = {}) {
     case DRINK_CREATED:
       return { ...state, ...action.data.entities.drinks };
     case DRINK_FETCHED:
-      console.log('drink_fetched', {...state, ...action.data.entities.drinks});
       return { ...state, ...action.data.entities.drinks };
     default:
       return state;

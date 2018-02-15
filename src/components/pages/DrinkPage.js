@@ -8,17 +8,33 @@ import DrinkForm from '../forms/DrinkForm';
 import { updateDrink, fetchDrink } from '../../actions/drinks';
 
 export class DrinkPage extends React.Component {
-  componentDidMount = () => this.onInit(this.props);
-  onInit = props => {
-    const id = props.match.params.id;
-    return props.fetchDrink(id);
+  state = {
+    data: null,
+    loading: false,
+  };
+
+  componentDidMount = () => {
+    const id = this.props.match.params.id;
+    return this.props.fetchDrink(id);
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    // was re-rendered and got mapStateToProps.drink and can now set state
+    // this is then passed to render and into the drinkform child component
+    this.setState({ ...this.state, drink: nextProps.drink });
   };
 
   saveDrink = drink =>
-    this.props.updateDrink(drink).then(() => console.log('save'));
+    this.props
+      .updateDrink(drink)
+      .then(drinks => {
+        const newDrink = drinks.data.entities.drinks[drink._id];
+        // set the new state based on the drink that was updated
+        this.setState({ ...this.state, drink: newDrink });
+      });
 
   render() {
-    const { drink } = this.props;
+    const { drink } = this.state;
     console.log('render drink', drink);
     return (
       <Container>

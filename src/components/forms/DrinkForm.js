@@ -18,7 +18,7 @@ import { timeOptions } from '../common/time-options';
 class DrinkForm extends React.Component {
   state = {
     data: {
-      // id: this.props.drink.id,
+      _id: this.props.drink._id,
       name: this.props.drink.name,
       img: this.props.drink.img,
       quote: this.props.drink.quote,
@@ -37,10 +37,9 @@ class DrinkForm extends React.Component {
   };
 
   componentWillReceiveProps(props) {
-    console.log('drinkform props', props);
     this.setState({
       data: {
-        id: props.drink.id,
+        _id: props.drink._id,
         name: props.drink.name,
         img: props.drink.img,
         quote: props.drink.quote,
@@ -321,7 +320,7 @@ class DrinkForm extends React.Component {
 DrinkForm.propTypes = {
   submit: PropTypes.func.isRequired,
   drink: PropTypes.shape({
-    id: PropTypes.string,
+    _id: PropTypes.string,
     name: PropTypes.string,
     img: PropTypes.string,
     quote: PropTypes.string,
