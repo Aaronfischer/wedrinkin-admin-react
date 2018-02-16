@@ -1,5 +1,10 @@
 import { createSelector } from 'reselect';
-import { DRINKS_FETCHED, DRINK_CREATED, DRINK_FETCHED } from '../types';
+import {
+  DRINKS_FETCHED,
+  DRINK_CREATED,
+  DRINK_FETCHED,
+  DRINK_DELETED
+} from '../types';
 
 export default function drinks(state = {}, action = {}) {
   switch (action.type) {
@@ -8,6 +13,12 @@ export default function drinks(state = {}, action = {}) {
       return { ...state, ...action.data.entities.drinks };
     case DRINK_FETCHED:
       return { ...state, ...action.data.entities.drinks };
+    case DRINK_DELETED: {
+      const newState = Object.assign({}, state);
+      // action.data.result is the ID of the deleted drink
+      delete newState[action.data.result];
+      return newState;
+    }
     default:
       return state;
   }
@@ -15,11 +26,11 @@ export default function drinks(state = {}, action = {}) {
 
 // Selectors
 export const drinksSelector = state => {
-  return state.drinks
+  return state.drinks;
 };
 
 export const allDrinksSelector = createSelector(drinksSelector, drinksHash => {
-  return Object.values(drinksHash)
+  return Object.values(drinksHash);
 });
 
 export const drinkSelector = (state, id) => {

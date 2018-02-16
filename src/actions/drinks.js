@@ -3,7 +3,8 @@ import {
   DRINKS_FETCHED,
   DRINK_CREATED,
   DRINK_UPDATED,
-  DRINK_FETCHED
+  DRINK_FETCHED,
+  DRINK_DELETED
 } from '../types';
 import api from '../api.js';
 import { drinkSchema } from '../schemas';
@@ -26,6 +27,11 @@ const drinkCreated = data => ({
 
 const drinkUpdated = data => ({
   type: DRINK_UPDATED,
+  data
+});
+
+const drinkDeleted = data => ({
+  type: DRINK_DELETED,
   data
 });
 
@@ -53,3 +59,8 @@ export const updateDrink = data => dispatch =>
   api.drinks
     .update(data)
     .then(drink => dispatch(drinkUpdated(normalize(drink, drinkSchema))));
+
+export const deleteDrink = data => dispatch =>
+  api.drinks
+    .delete(data)
+    .then(() => dispatch(drinkDeleted(normalize(data, drinkSchema))));

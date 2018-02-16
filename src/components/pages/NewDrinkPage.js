@@ -1,17 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import SearchDrinkForm from '../forms/SearchDrinkForm';
 import DrinkForm from '../forms/DrinkForm';
 import { createDrink } from '../../actions/drinks';
 
 export class NewDrinkPage extends React.Component {
   state = {
-    drink: null
+    drink: {
+      name: '',
+      img: '',
+      quote: '',
+      temp: [],
+      wind: '',
+      time: [],
+      city: '',
+      country: '',
+      region: '',
+      ingredients: [],
+      instructions: ''
+    }
   };
-
-  onDrinkSelect = drink => this.setState({ drink });
 
   addDrink = drink =>
     this.props
@@ -20,12 +30,12 @@ export class NewDrinkPage extends React.Component {
 
   render() {
     return (
-      <Segment>
-        <h1>Add new drink to your collection</h1>
+      <Container>
+        <h1>Add Drink</h1>
         {/*<SearchDrinkForm onDrinkSelect={this.onDrinkSelect} />*/}
 
         <DrinkForm submit={this.addDrink} drink={this.state.drink} />
-      </Segment>
+      </Container>
     );
   }
 }

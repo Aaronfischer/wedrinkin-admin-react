@@ -4,3 +4,4 @@ export const DRINKS_FETCHED = 'DRINKS_FETCHED';
 export const DRINK_FETCHED = 'DRINK_FETCHED';
 export const DRINK_CREATED = 'DRINK_CREATED';
 export const DRINK_UPDATED = 'DRINK_UPDATED';
+export const DRINK_DELETED = 'DRINK_DELETED';

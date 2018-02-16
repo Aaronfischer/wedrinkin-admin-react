@@ -27,6 +27,10 @@ export default {
     update: drink =>
       axios
         .patch(`/api/drinks/${drink._id}`, { drink })
+        .then(res => res.data.drinks),
+    delete: drink =>
+      axios
+        .delete(`/api/drinks/${drink._id}`, { drink })
         .then(res => res.data.drinks)
   }
 };

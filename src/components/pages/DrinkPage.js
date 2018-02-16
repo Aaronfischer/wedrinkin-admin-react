@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'semantic-ui-react';
 import SearchDrinkForm from '../forms/SearchDrinkForm';
 import DrinkForm from '../forms/DrinkForm';
-import { updateDrink, fetchDrink } from '../../actions/drinks';
+import { updateDrink, fetchDrink, deleteDrink } from '../../actions/drinks';
 
 export class DrinkPage extends React.Component {
   state = {
@@ -33,13 +33,18 @@ export class DrinkPage extends React.Component {
         this.setState({ ...this.state, drink: newDrink });
       });
 
+  removeDrink = drink =>
+    this.props
+      .deleteDrink(drink)
+      .then(() => this.props.history.push('/drinks'));
+
   render() {
     const { drink } = this.state;
     console.log('render drink', drink);
     return (
       <Container>
         <h1>Edit Drink</h1>
-        {drink && <DrinkForm submit={this.saveDrink} drink={drink} />}
+        {drink && <DrinkForm submit={this.saveDrink} delete={this.removeDrink} drink={drink} />}
       </Container>
     );
   }
@@ -48,6 +53,7 @@ export class DrinkPage extends React.Component {
 DrinkPage.propTypes = {
   fetchDrink: PropTypes.func.isRequired,
   updateDrink: PropTypes.func.isRequired,
+  deleteDrink: PropTypes.func.isRequired,
   drink: PropTypes.object,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
@@ -63,4 +69,4 @@ function mapStateToProps(state, ownProps) {
   return mapState;
 }
 
-export default connect(mapStateToProps, { updateDrink, fetchDrink })(DrinkPage);
+export default connect(mapStateToProps, { updateDrink, deleteDrink, fetchDrink })(DrinkPage);

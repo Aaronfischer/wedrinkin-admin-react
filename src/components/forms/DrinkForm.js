@@ -94,10 +94,20 @@ class DrinkForm extends React.Component {
       this.setState({ loading: true });
       this.props
         .submit(this.state.data)
-        .catch(err =>
-          this.setState({ errors: err.response.data.errors, loading: false })
+        .catch(error =>
+          this.setState({ errors: error.response.data.errors, loading: false })
         );
     }
+  };
+
+  onDelete = e => {
+    e.preventDefault();
+    this.setState({ loading: true });
+    this.props
+      .delete(this.state.data)
+      .catch(error =>
+        this.setState({ errors: error.response.data.errors, loading: false })
+      );
   };
 
   removeIngredient = (field, index, e) => {
@@ -203,7 +213,7 @@ class DrinkForm extends React.Component {
                 <Form.Field error={!!errors.ingredients}>
                   <label htmlFor="ingredients">Ingredients</label>
                   <div className="ui form small">
-                    {data.ingredients.length !== 0 &&
+                    {data.ingredients && data.ingredients.length !== 0 &&
                       data.ingredients.map((el, i) => {
                         return (
                           <Form.Group
@@ -309,6 +319,11 @@ class DrinkForm extends React.Component {
               <Grid.Column>
                 <Form.Button primary>Save</Form.Button>
               </Grid.Column>
+              {data._id && (
+                <Grid.Column>
+                  <Form.Button onClick={this.onDelete}>Delete</Form.Button>
+                </Grid.Column>
+              )}
             </Grid.Row>
           </Grid>
         </Form>
@@ -319,6 +334,7 @@ class DrinkForm extends React.Component {
 
 DrinkForm.propTypes = {
   submit: PropTypes.func.isRequired,
+  delete: PropTypes.func,
   drink: PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,

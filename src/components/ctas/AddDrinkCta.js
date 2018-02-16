@@ -6,7 +6,7 @@ const AddDrinkCta = () => (
   <Card centered>
     <Card.Content textAlign="center">
       <Card.Header>Add new drink</Card.Header>
-      <Link to="/drinks/new">
+      <Link to="/drinks/add">
         <Icon name="plus circle" size="massive" />
       </Link>
     </Card.Content>

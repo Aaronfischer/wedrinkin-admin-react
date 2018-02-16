@@ -7,11 +7,7 @@ import DrinkList from '../parts/DrinkList';
 import { fetchDrinks } from '../../actions/drinks';
 
 class DrinksPage extends React.Component {
-  componentDidMount = () => this.onInit(this.props);
-  onInit = props => {
-    console.log('onInit', props);
-    return props.fetchDrinks()
-  };
+  componentDidMount = () => this.props.fetchDrinks();
 
   render() {
     const { isConfirmed, drinks } = this.props;

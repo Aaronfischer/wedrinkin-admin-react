@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
@@ -58,18 +58,21 @@ const App = ({ location, isAuthenticated }) => (
       exact
       component={DrinksPage}
     />
-    <UserRoute
-      location={location}
-      path="/drinks/:id"
-      exact
-      component={DrinkPage}
-    />
-    <UserRoute
-      location={location}
-      path="/drinks/new"
-      exact
-      component={NewDrinkPage}
-    />
+    {/* Wrap in Switch to match to the first path, fixes /drinks/add matching /drinks/:id */}
+    <Switch>
+      <UserRoute
+        location={location}
+        path="/drinks/add"
+        exact
+        component={NewDrinkPage}
+      />
+      <UserRoute
+        location={location}
+        path="/drinks/:id"
+        exact
+        component={DrinkPage}
+      />
+    </Switch>
   </div>
 );
 

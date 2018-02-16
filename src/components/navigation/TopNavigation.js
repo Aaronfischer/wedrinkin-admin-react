@@ -16,7 +16,7 @@ const TopNavigation = ({ user, logout, hasDrinks }) => (
       Drinks
     </Menu.Item>
     {hasDrinks && (
-      <Menu.Item as={Link} to="/drinks/new">
+      <Menu.Item as={Link} to="/drinks/add">
         Add New Drink
       </Menu.Item>
     )}
