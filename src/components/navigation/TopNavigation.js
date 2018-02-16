@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown, Image } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Menu, Dropdown, Image, Container } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/auth';
 import { allDrinksSelector } from '../../reducers/drinks';
 
 const TopNavigation = ({ user, logout, hasDrinks }) => (
-  <Menu secondary pointing>
-    <Menu.Item as={Link} to="/dashboard">
+  <Menu size="tiny">
+    <Menu.Item as={NavLink} to="/dashboard">
       Dashboard
     </Menu.Item>
-    <Menu.Item as={Link} to="/drinks">
+    <Menu.Item as={NavLink} to="/drinks">
       Drinks
     </Menu.Item>
     {hasDrinks && (
-      <Menu.Item as={Link} to="/drinks/add">
+      <Menu.Item as={NavLink} to="/drinks/add">
         Add New Drink
       </Menu.Item>
     )}
@@ -39,6 +39,7 @@ TopNavigation.propTypes = {
 };
 
 function mapStateToProps(state) {
+  console.log('props', this.props);
   return {
     user: state.user,
     hasDrinks: allDrinksSelector(state).length > 0

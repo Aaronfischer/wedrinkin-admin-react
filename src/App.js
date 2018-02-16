@@ -19,7 +19,7 @@ import './App.css';
 
 const App = ({ location, isAuthenticated }) => (
   <div className="ui container">
-    {isAuthenticated && <TopNavigation />}
+    {isAuthenticated && <TopNavigation location={location} />}
     <Route location={location} path="/" exact component={HomePage} />
     <Route
       location={location}
