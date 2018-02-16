@@ -21,7 +21,7 @@ const TopNavigation = ({ user, logout, hasDrinks }) => (
       </Menu.Item>
     )}
     <Menu.Menu position="right">
-      <Dropdown trigger={<Image avatar src={gravatarUrl(user.email)} />}>
+      <Dropdown item trigger={<Image avatar src={gravatarUrl(user.email)} />}>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
         </Dropdown.Menu>
