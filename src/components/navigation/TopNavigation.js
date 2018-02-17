@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Dropdown, Image, Button, Popup } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
 import { connect } from 'react-redux';
@@ -25,11 +25,18 @@ const TopNavigation = ({ user, logout, hasDrinks }) => (
         )}
       </Menu.Menu>
     </Menu.Item>
-    <Dropdown item className="dropdown-icon-center" trigger={<Image avatar src={gravatarUrl(user.email)} />}>
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+    <Popup
+      trigger={
+        <Menu.Item>
+          <Image avatar src={gravatarUrl(user.email)} />
+        </Menu.Item>
+      }
+      position="right center"
+      on="click"
+      hideOnScroll
+    >
+      <a onClick={() => logout()}>Logout</a>
+    </Popup>
   </Menu>
 );
 
