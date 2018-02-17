@@ -1,0 +1,17 @@
+.ui-push-left{
+  margin-left:210px;
+  min-width:500px;
+}
+.row-padding{
+  margin-top:1em;
+  padding:1em !important;
+}
+.dropdown-icon-center i.dropdown.icon{
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  position: absolute !important;
+  right: 20px !important;
+}
+/*.ui.inverted.menu.bg-dark{
+  background-color:black !important;
+}*/

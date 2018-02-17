@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { allDrinksSelector } from '../../reducers/drinks';
 import AddDrinkCta from '../ctas/AddDrinkCta';
@@ -13,6 +14,7 @@ class DrinksPage extends React.Component {
     const { isConfirmed, drinks } = this.props;
     return (
       <div>
+        <Header as='h1'>Drinks</Header>
         {drinks.length === 0 ? <AddDrinkCta /> : <DrinkList drinks={drinks} />}
       </div>
     );

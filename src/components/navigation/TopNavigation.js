@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown, Image, Container } from 'semantic-ui-react';
+import { Menu, Dropdown, Image } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
 import { connect } from 'react-redux';
@@ -8,25 +8,28 @@ import * as actions from '../../actions/auth';
 import { allDrinksSelector } from '../../reducers/drinks';
 
 const TopNavigation = ({ user, logout, hasDrinks }) => (
-  <Menu size="tiny">
+  <Menu vertical inverted fixed="left" className="bg-dark">
     <Menu.Item as={NavLink} to="/dashboard">
-      Dashboard
+      <strong>wedrinkin</strong>
     </Menu.Item>
-    <Menu.Item as={NavLink} to="/drinks">
-      Drinks
+    <Menu.Item>
+      <Menu.Header>Drinks</Menu.Header>
+      <Menu.Menu>
+        <Menu.Item as={NavLink} to="/drinks">
+          Browse
+        </Menu.Item>
+        {hasDrinks && (
+          <Menu.Item as={NavLink} to="/drinks/add">
+            Add
+          </Menu.Item>
+        )}
+      </Menu.Menu>
     </Menu.Item>
-    {hasDrinks && (
-      <Menu.Item as={NavLink} to="/drinks/add">
-        Add New Drink
-      </Menu.Item>
-    )}
-    <Menu.Menu position="right">
-      <Dropdown item trigger={<Image avatar src={gravatarUrl(user.email)} />}>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </Menu.Menu>
+    <Dropdown item className="dropdown-icon-center" trigger={<Image avatar src={gravatarUrl(user.email)} />}>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
   </Menu>
 );
 
