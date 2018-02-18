@@ -28,7 +28,11 @@ const TopNavigation = ({ user, logout, hasDrinks }) => (
     <Popup
       trigger={
         <Menu.Item>
-          <Image avatar src={gravatarUrl(user.email)} />
+          <Menu.Header>
+            <Image avatar floated="left" src={gravatarUrl(user.email)} />
+            {user.firstName} {user.lastName} <br />
+            <span className="small emphasis text-subtle">{user.email}</span>
+          </Menu.Header>
         </Menu.Item>
       }
       position="right center"

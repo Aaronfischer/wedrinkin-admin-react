@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Validator from 'validator';
 import InlineError from '../messages/InlineError';
@@ -7,6 +7,8 @@ import InlineError from '../messages/InlineError';
 class SignupForm extends Component {
   state = {
     data: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: ''
     },
@@ -48,37 +50,59 @@ class SignupForm extends Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        {errors.global && (
-          <Message negative>
-            <Message.Header>Something went wrong!</Message.Header>
-            <p>{errors.global}</p>
-          </Message>
-        )}
-        <Form.Field error={!!errors.email}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="name@domain.com"
-            value={data.email}
-            onChange={this.onChange}
-          />
-          {errors.email && <InlineError text={errors.email} />}
-        </Form.Field>
-        <Form.Field error={!!errors.password}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="password"
-            value={data.password}
-            onChange={this.onChange}
-          />
-          {errors.password && <InlineError text={errors.password} />}
-        </Form.Field>
-        <Button primary>Sign Up</Button>
+        <Segment>
+          {errors.global && (
+            <Message negative>
+              <Message.Header>Something went wrong!</Message.Header>
+              <p>{errors.global}</p>
+            </Message>
+          )}
+          <Form.Field error={!!errors.firstName}>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="First Name"
+              value={data.firstName}
+              onChange={this.onChange}
+            />
+            {errors.firstName && <InlineError text={errors.firstName} />}
+          </Form.Field>
+          <Form.Field error={!!errors.lastName}>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Last Name"
+              value={data.lastName}
+              onChange={this.onChange}
+            />
+            {errors.lastName && <InlineError text={errors.lastName} />}
+          </Form.Field>
+          <Form.Field error={!!errors.email}>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              value={data.email}
+              onChange={this.onChange}
+            />
+            {errors.email && <InlineError text={errors.email} />}
+          </Form.Field>
+          <Form.Field error={!!errors.password}>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={data.password}
+              onChange={this.onChange}
+            />
+            {errors.password && <InlineError text={errors.password} />}
+          </Form.Field>
+          <Button fluid primary>Sign Up</Button>
+        </Segment>
       </Form>
     );
   }

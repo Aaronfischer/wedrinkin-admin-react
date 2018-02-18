@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button, Message, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Validator from 'validator';
 import InlineError from '../messages/InlineError';
@@ -45,25 +45,27 @@ class ForgotPasswordForm extends Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        {!!errors.global && (
-          <Message negative>
-            <Message.Header>Something went wrong!</Message.Header>
-            <p>{errors.global}</p>
-          </Message>
-        )}
-        <Form.Field error={!!errors.email}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="name@domain.com"
-            value={data.email}
-            onChange={this.onChange}
-          />
-          {errors.email && <InlineError text={errors.email} />}
-        </Form.Field>
-        <Button primary>Reset Password</Button>
+        <Segment>
+          {!!errors.global && (
+            <Message negative>
+              <Message.Header>Something went wrong!</Message.Header>
+              <p>{errors.global}</p>
+            </Message>
+          )}
+          <Form.Field error={!!errors.email}>
+            <input
+              fluid="true"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              value={data.email}
+              onChange={this.onChange}
+            />
+            {errors.email && <InlineError text={errors.email} />}
+          </Form.Field>
+          <Button fluid primary>Reset Password</Button>
+        </Segment>
       </Form>
     );
   }

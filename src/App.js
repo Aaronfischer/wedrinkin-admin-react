@@ -21,7 +21,7 @@ import './App.css';
 const App = ({ location, isAuthenticated }) => (
   <div>
     {isAuthenticated && <TopNavigation location={location} />}
-    <div className="ui-push-left">
+    <div className={'main-wrapper ' + (isAuthenticated ? 'ui-push-left' : '')}>
       <Grid>
         <Grid.Row columns="equal" className="row-padding">
           <Grid.Column>
@@ -32,7 +32,12 @@ const App = ({ location, isAuthenticated }) => (
               exact
               component={ConfirmationPage}
             />
-            <GuestRoute location={location} path="/login" exact component={LoginPage} />
+            <GuestRoute
+              location={location}
+              path="/login"
+              exact
+              component={LoginPage}
+            />
             <GuestRoute
               location={location}
               path="/signup"
@@ -78,7 +83,7 @@ const App = ({ location, isAuthenticated }) => (
                 component={DrinkPage}
               />
             </Switch>
-            </Grid.Column>
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </div>

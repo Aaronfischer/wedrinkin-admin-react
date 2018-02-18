@@ -20,8 +20,11 @@ const store = createStore(
 
 if (localStorage.wedrinkinJWT) {
   const payload = decode(localStorage.wedrinkinJWT);
+  console.log('payload', payload);
   const user = {
     token: localStorage.wedrinkinJWT,
+    firstName: payload.firstName,
+    lastName: payload.lastName,
     email: payload.email,
     confirmed: payload.confirmed
   };

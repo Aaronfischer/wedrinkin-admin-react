@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Message } from 'semantic-ui-react';
+import { Message, Grid } from 'semantic-ui-react';
 import ResetPasswordForm from '../forms/ResetPasswordForm';
 import { validateToken, resetPassword } from '../../actions/auth';
+import ReactBody from 'react-body';
 
 class ResetPasswordPage extends React.Component {
   state = {
@@ -29,10 +30,19 @@ class ResetPasswordPage extends React.Component {
 
     return (
       <div>
-        {loading && <Message>Loading</Message>}
-        {!loading &&
-          success && <ResetPasswordForm submit={this.submit} token={token} />}
-        {!loading && !success && <Message>Invalid Token</Message>}
+      <ReactBody className="body-login-page" />
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            {loading && <Message>Loading</Message>}
+            {!loading &&
+              success && <ResetPasswordForm submit={this.submit} token={token} />}
+            {!loading && !success && <Message>Invalid Token</Message>}
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
