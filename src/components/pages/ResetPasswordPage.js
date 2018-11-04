@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Message, Grid } from 'semantic-ui-react';
 import ResetPasswordForm from '../forms/ResetPasswordForm';
 import { validateToken, resetPassword } from '../../actions/auth';
@@ -61,6 +61,4 @@ ResetPasswordPage.propTypes = {
   }).isRequired
 };
 
-export default connect(null, { validateToken, resetPassword })(
-  ResetPasswordPage
-);
+export default ResetPasswordPage;

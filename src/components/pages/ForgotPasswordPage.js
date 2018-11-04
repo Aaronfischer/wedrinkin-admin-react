@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Message, Grid, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ForgotPasswordForm from '../forms/ForgotPasswordForm';
@@ -45,4 +45,4 @@ export class ForgotPasswordPage extends React.Component {
   }
 }
 
-export default connect(null, { resetPasswordRequest })(ForgotPasswordPage);
+export default ForgotPasswordPage;

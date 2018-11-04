@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Menu, Dropdown, Image, Button, Popup } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import * as actions from '../../actions/auth';
 import { allDrinksSelector } from '../../reducers/drinks';
 
@@ -29,9 +29,9 @@ const TopNavigation = ({ user, logout, hasDrinks }) => (
       trigger={
         <Menu.Item>
           <Menu.Header>
-            <Image avatar floated="left" src={gravatarUrl(user.email)} />
-            {user.firstName} {user.lastName} <br />
-            <span className="small emphasis text-subtle">{user.email}</span>
+            {/* <Image avatar floated="left" src={gravatarUrl(user.email)} /> */}
+            {/* {user.firstName} {user.lastName} <br /> */}
+            {/* <span className="small emphasis text-subtle">{user.email}</span> */}
           </Menu.Header>
         </Menu.Item>
       }
@@ -60,6 +60,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { logout: actions.logout })(
-  TopNavigation
-);
+export default TopNavigation;

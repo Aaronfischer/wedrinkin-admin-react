@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import {
   Button,
   Form,
@@ -52,4 +52,4 @@ LoginPage.propTypes = {
   login: PropTypes.func.isRequired
 };
 
-export default connect(null, { login })(LoginPage);
+export default LoginPage;

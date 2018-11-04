@@ -48,6 +48,10 @@ class SignupForm extends Component {
   render() {
     const { data, errors, loading } = this.state;
 
+    console.log('data', data);
+    console.log('errors', errors);
+    console.log('loading', loading);
+
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
         <Segment>

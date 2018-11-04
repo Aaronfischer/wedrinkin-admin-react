@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { drinkSelector } from '../../reducers/drinks';
 import PropTypes from 'prop-types';
 import { Container } from 'semantic-ui-react';
@@ -69,4 +69,4 @@ function mapStateToProps(state, ownProps) {
   return mapState;
 }
 
-export default connect(mapStateToProps, { updateDrink, deleteDrink, fetchDrink })(DrinkPage);
+export default DrinkPage;

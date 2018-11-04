@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container } from 'semantic-ui-react';
 import SearchDrinkForm from '../forms/SearchDrinkForm';
@@ -47,4 +47,4 @@ NewDrinkPage.propTypes = {
   }).isRequired
 };
 
-export default connect(null, { createDrink })(NewDrinkPage);
+export default NewDrinkPage;

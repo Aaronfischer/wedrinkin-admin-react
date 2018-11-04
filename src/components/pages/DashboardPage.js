@@ -1,43 +1,71 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
 import { allDrinksSelector } from '../../reducers/drinks';
 import AddDrinkCta from '../ctas/AddDrinkCta';
 import DrinkList from '../parts/DrinkList';
-import { fetchDrinks } from '../../actions/drinks';
+import { Consumer } from '../../store';
+// import { fetchDrinks } from '../../actions/drinks';
 
-class DashboardPage extends React.Component {
-  componentDidMount = () => this.onInit(this.props);
-  onInit = props => props.fetchDrinks();
+// class DashboardPage extends React.Component {
+//   componentDidMount = () => {
+//     console.log('componentDidMount', this.props);
+//     return this.onInit(this.props)
+//   };
 
-  render() {
-    const { isConfirmed, drinks } = this.props;
-    return (
+//   onInit = props => {
+//     console.log('props', props);
+//     return props.fetchDrinks()
+//   };
+
+//   render() {
+//     const { isConfirmed, drinks } = this.props;
+//     console.log('this.props', this.props);
+//     return (
+//       <div>
+//         {!isConfirmed && <ConfirmEmailMessage />}
+
+//         {drinks.length === 0 ? <AddDrinkCta /> : <DrinkList drinks={drinks} />}
+//       </div>
+//     );
+//   }
+// }
+
+const DashboardPage = () => {
+  return (
+    <Consumer
+      mapStateToProps={state => ({
+        drinks: state.drinks,
+      })}
+    >
+    {({ drinks, actions }) => (
       <div>
-        {!isConfirmed && <ConfirmEmailMessage />}
+        {/* {!state && <ConfirmEmailMessage />} */}
 
-        {drinks.length === 0 ? <AddDrinkCta /> : <DrinkList drinks={drinks} />}
+        {/* {drinks.length === 0 ? <AddDrinkCta /> : <DrinkList drinks={drinks} />} */}
+        {/* {state.name} */}
       </div>
-    );
-  }
-}
-
-DashboardPage.propTypes = {
-  isConfirmed: PropTypes.bool.isRequired,
-  fetchDrinks: PropTypes.func.isRequired,
-  drinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired
+    )}
+    </Consumer>
+  )
 };
 
-function mapStateToProps(state) {
-  return {
-    isConfirmed: !!state.user.confirmed,
-    drinks: allDrinksSelector(state)
-  };
-}
+DashboardPage.propTypes = {
+  // isConfirmed: PropTypes.bool.isRequired,
+  // fetchDrinks: PropTypes.func.isRequired,
+  // drinks: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     name: PropTypes.string.isRequired
+  //   })
+  // ).isRequired
+};
 
-export default connect(mapStateToProps, { fetchDrinks })(DashboardPage);
+// function mapStateToProps(store) {
+//   return {
+//     isConfirmed: !!store.user.confirmed,
+//     drinks: allDrinksSelector(store),
+//   };
+// }
+
+export default DashboardPage;
