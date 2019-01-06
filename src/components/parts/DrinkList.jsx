@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Card, Image, Icon } from 'semantic-ui-react';
 
@@ -28,14 +27,6 @@ const DrinkList = ({ drinks }) => {
       ))}
     </Card.Group>
   );
-};
-
-DrinkList.propTypes = {
-  drinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired
 };
 
 export default DrinkList;

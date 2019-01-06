@@ -1,43 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import decode from 'jwt-decode';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import './index.css';
 import 'semantic-ui-css/semantic.min.css';
-import rootReducer from './rootReducer';
-import { userLoggedIn } from './actions/auth';
-import setAuthorizationHeader from './utils/setAuthorizationHeader';
-
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
-
-if (localStorage.wedrinkinJWT) {
-  const payload = decode(localStorage.wedrinkinJWT);
-  console.log('payload', payload);
-  const user = {
-    token: localStorage.wedrinkinJWT,
-    firstName: payload.firstName,
-    lastName: payload.lastName,
-    email: payload.email,
-    confirmed: payload.confirmed
-  };
-  setAuthorizationHeader(localStorage.wedrinkinJWT);
-  store.dispatch(userLoggedIn(user));
-}
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <Route component={App} />
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById('root')
+    <Route component={App} />
+  </BrowserRouter>, document.getElementById('root')
 );
-registerServiceWorker();
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
