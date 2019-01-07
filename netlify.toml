@@ -1,0 +1,3 @@
+[build]
+  # functions build directory
+  functions = "functions-build"

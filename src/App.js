@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import TopNavigation from './components/navigation/TopNavigation';
 import HomePage from './components/pages/HomePage';
 import DrinksPage from './components/pages/DrinksPage';
+import DrinksEditPage from './components/pages/DrinksEditPage';
 import DrinksAddPage from './components/pages/DrinksAddPage';
 import './App.css';
 
@@ -22,6 +23,11 @@ class App extends Component {
                   path="/drinks"
                   exact
                   component={DrinksPage}
+                />
+                <Route
+                  path="/drinks/:id"
+                  exact
+                  component={DrinksEditPage}
                 />
                 <Route
                   path="/drinks/add"
