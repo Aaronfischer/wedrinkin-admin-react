@@ -11,6 +11,7 @@ import {
   Dropdown
 } from 'semantic-ui-react';
 import FormField from '../parts/FormField';
+import FieldIngredients from '../parts/FieldIngredients';
 import { tempOptions } from '../common/temp-options';
 import { timeOptions } from '../common/time-options';
 
@@ -124,6 +125,7 @@ class DrinkForm extends React.Component {
       amount: '',
       item: ''
     };
+    console.log('addIngredient', ingredient);
     this.setState({
       ...this.state,
       data: {
@@ -159,6 +161,82 @@ class DrinkForm extends React.Component {
                     name="name"
                     placeholder="Name"
                     value={data.name}
+                    onChange={this.onChange}
+                  />
+                </FormField>
+                <FormField error={errors.img}>
+                  <label htmlFor="img">Img/Icon</label>
+                  <input
+                    type="text"
+                    id="img"
+                    name="img"
+                    placeholder="Icon Code"
+                    value={data.img}
+                    onChange={this.onChange}
+                  />
+                </FormField>
+                <FormField error={errors.temp}>
+                  <label htmlFor="temp">Temperature</label>
+                  <Dropdown
+                    placeholder="Temperature"
+                    id="temp"
+                    name="temp"
+                    fluid
+                    multiple
+                    search
+                    selection
+                    value={data.temp}
+                    options={tempOptions}
+                    onChange={this.onDropdownChange}
+                  />
+                </FormField>
+                <FormField error={errors.time}>
+                  <label htmlFor="time">Time</label>
+                  <Dropdown
+                    placeholder="Time"
+                    id="time"
+                    name="time"
+                    fluid
+                    multiple
+                    search
+                    selection
+                    value={data.time}
+                    options={timeOptions}
+                    onChange={this.onDropdownChange}
+                  />
+                </FormField>
+                <FormField error={errors.ingredients}>
+                  <label htmlFor="ingredients">Ingredients</label>
+                  <FieldIngredients
+                    field="ingredients"
+                    name="Ingredients"
+                    data={data.ingredients}
+                    onchange={this.onIngredientsChange}
+                    onremove={this.removeIngredient}
+                    onadd={this.addIngredient}
+                    // passAction={{action onRemoveItem}}
+
+                    />
+                </FormField>
+                <FormField error={errors.quote}>
+                  <label htmlFor="quote">Quote</label>
+                  <input
+                    type="text"
+                    id="quote"
+                    name="quote"
+                    placeholder="Quote"
+                    value={data.quote}
+                    onChange={this.onChange}
+                  />
+                </FormField>
+                <FormField error={errors.instructions}>
+                  <label htmlFor="instructions">Instructions</label>
+                  <TextArea
+                    autoHeight
+                    id="instructions"
+                    name="instructions"
+                    placeholder="Instructions"
+                    value={data.instructions}
                     onChange={this.onChange}
                   />
                 </FormField>
