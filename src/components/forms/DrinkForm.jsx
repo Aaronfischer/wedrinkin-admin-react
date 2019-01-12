@@ -6,7 +6,7 @@ import {
   Button,
   Grid,
   Segment,
-  Image,
+  Message,
   TextArea,
   Dropdown
 } from 'semantic-ui-react';
@@ -14,6 +14,7 @@ import FormField from '../parts/FormField';
 import FieldIngredients from '../parts/FieldIngredients';
 import { tempOptions } from '../common/temp-options';
 import { timeOptions } from '../common/time-options';
+import { fetchWrapper } from '../../utils/fetch-wrapper';
 
 class DrinkForm extends React.Component {
   state = {
@@ -32,8 +33,10 @@ class DrinkForm extends React.Component {
       instructions: this.props.drink.instructions
     },
     index: 0,
-    loading: false,
-    errors: {}
+    isLoading: false,
+    isSuccess: false,
+    isFailure: false,
+    errors: {},
   };
 
   componentWillReceiveProps(props) {
@@ -52,9 +55,21 @@ class DrinkForm extends React.Component {
         ingredients: props.drink.ingredients,
         instructions: props.drink.instructions
       },
-      loading: false
+      isLoading: false,
+      isSuccess: false,
+      isFailure: false,
+      errors: {},
       // covers: props.drink.covers
     });
+  }
+
+  reset = () => {
+    this.setState({
+      isSuccess: false,
+      isFailure: false,
+      isLoading: false,
+    });
+    console.log('RESET', this.state);
   }
 
   onChange = e =>
@@ -86,27 +101,76 @@ class DrinkForm extends React.Component {
       }
     });
 
-  onSubmit = e => {
+  validate = data => {
+    const errors = {};
+    console.log('validate data', data);
+    if (!data.name) errors.name = "Can't be blank";
+    if (!data.instructions) errors.instructions = "Can't be blank";
+    return errors;
+  };
+
+  onSubmit = async (e) => {
     e.preventDefault();
+    console.log('this.state', this.state, e);
     const errors = this.validate(this.state.data);
-    this.setState({ errors });
+    this.setState({
+      isFailure: true,
+      errors,
+    });
     if (Object.keys(errors).length === 0) {
-      this.setState({ loading: true });
-      this.props
-        .submit(this.state.data)
-        .catch(error =>
-          this.setState({ errors: error.response.data.errors, loading: false })
-        );
+      this.setState({ isLoading: true });
+      // this.props
+      //   .submit(this.state.data)
+      //   .catch(error =>
+      //     this.setState({ errors: error.response.data.errors, loading: false })
+      //   );
+      console.log('SAVE THE DATA', this.state.data);
+      try {
+        let url = `${process.env.REACT_APP_API_HOST}/drinks`;
+        let method = 'POST';
+        if (this.state.data._id) {
+          url = `${url}/${this.state.data._id}`;
+          method = 'PATCH';
+        }
+        await fetchWrapper(url, {
+          method: method,
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ drink: this.state.data }),
+        }).then(data => {
+          return data.json().then((json) => {
+            if (data.status === 400) {
+              throw json;
+            }
+            this.reset();
+            console.log('reset i hope');
+            this.setState({
+              isSuccess: true,
+              data: json.drinks,
+            });
+            // router.navigate(`/drinks/${json.drinks._id}/edit`);
+            // return router.resume();
+          });
+        }, (error) => { throw error; });
+      } catch(error) {
+        this.reset();
+        this.setState({
+          isFailure: true,
+          errors: error.errors,
+        });
+      }
     }
   };
 
   onDelete = e => {
     e.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
     this.props
       .delete(this.state.data)
       .catch(error =>
-        this.setState({ errors: error.response.data.errors, loading: false })
+        this.setState({ errors: error.response.data.errors, isLoading: false })
       );
   };
 
@@ -135,22 +199,23 @@ class DrinkForm extends React.Component {
     });
   };
 
-  validate = data => {
-    const errors = {};
-    if (!data.name) errors.name = "Can't be blank";
-    if (!data.instructions) errors.instructions = "Can't be blank";
-    return errors;
-  };
-
   render() {
-    const { errors, data, loading } = this.state;
-
-    console.log('errors', errors);
+    const { errors, data, isLoading, isFailure, isSuccess } = this.state;
 
     return (
       <Segment>
-        <Form onSubmit={this.onSubmit} loading={loading}>
-          <Grid columns={2} fluid="true" stackable>
+        <Form onSubmit={this.onSubmit} success={isSuccess} error={isFailure} loading={isLoading}>
+          <Message
+            success
+            header='Saved!'
+            content='Your drink has been saved!'
+          />
+          <Message
+            error
+            header='Error!'
+            content='There was an issue, please see below!'
+          />
+          <Grid columns={1} fluid="true" stackable>
             <Grid.Row>
               <Grid.Column>
                 <FormField error={errors.name}>
@@ -240,159 +305,7 @@ class DrinkForm extends React.Component {
                     onChange={this.onChange}
                   />
                 </FormField>
-                {/* <Form.Field error={!!errors.name}>
-                  <label htmlFor="name">Drink Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Name"
-                    value={data.name}
-                    onChange={this.onChange}
-                  />
-                  {errors.name && <InlineError text={errors.name} />}
-                </Form.Field> */}
 
-                {/* <Form.Field error={!!errors.img}>
-                  <label htmlFor="img">Img/Icon</label>
-                  <input
-                    type="text"
-                    id="img"
-                    name="img"
-                    placeholder="Icon Code"
-                    value={data.img}
-                    onChange={this.onChange}
-                  />
-                  {errors.img && <InlineError text={errors.img} />}
-                </Form.Field>
-
-                <Form.Field error={!!errors.temp}>
-                  <label htmlFor="temp">Temperature</label>
-                  <Dropdown
-                    placeholder="Temperature"
-                    id="temp"
-                    name="temp"
-                    fluid
-                    multiple
-                    search
-                    selection
-                    value={data.temp}
-                    options={tempOptions}
-                    onChange={this.onDropdownChange}
-                  />
-                  {errors.temp && <InlineError text={errors.temp} />}
-                </Form.Field>
-
-                <Form.Field error={!!errors.time}>
-                  <label htmlFor="time">Time</label>
-                  <Dropdown
-                    placeholder="Time"
-                    id="time"
-                    name="time"
-                    fluid
-                    multiple
-                    search
-                    selection
-                    value={data.time}
-                    options={timeOptions}
-                    onChange={this.onDropdownChange}
-                  />
-                  {errors.time && <InlineError text={errors.time} />}
-                </Form.Field>
-
-                <Form.Field error={!!errors.ingredients}>
-                  <label htmlFor="ingredients">Ingredients</label>
-                  <div className="ui form small">
-                    {data.ingredients && data.ingredients.length !== 0 &&
-                      data.ingredients.map((el, i) => {
-                        return (
-                          <Form.Group
-                            widths="equal"
-                            className="ingredient-item"
-                            key={i}
-                          >
-                            <Form.Input
-                              fluid
-                              label="Item"
-                              type="text"
-                              id="item"
-                              name="item"
-                              placeholder="Item"
-                              value={el.item}
-                              onChange={this.onIngredientsChange.bind(
-                                this,
-                                'ingredients',
-                                i
-                              )}
-                            />
-                            <Form.Input
-                              fluid
-                              label="Amount"
-                              type="text"
-                              id="amount"
-                              name="amount"
-                              placeholder="Amount"
-                              value={el.amount}
-                              onChange={this.onIngredientsChange.bind(
-                                this,
-                                'ingredients',
-                                i
-                              )}
-                            />
-                            <Button
-                              type="button"
-                              icon
-                              onClick={this.removeIngredient.bind(
-                                this,
-                                'ingredients',
-                                i
-                              )}
-                            >
-                              <Icon name="close" />
-                            </Button>
-                          </Form.Group>
-                        );
-                      })}
-                    <Button
-                      type="button"
-                      size="small"
-                      onClick={this.addIngredient}
-                    >
-                      Add Ingredient
-                    </Button>
-                    {errors.ingredients && (
-                      <InlineError text={errors.ingredients} />
-                    )}
-                  </div>
-                </Form.Field>
-
-                <Form.Field error={!!errors.quote}>
-                  <label htmlFor="quote">Quote</label>
-                  <input
-                    type="text"
-                    id="quote"
-                    name="quote"
-                    placeholder="Quote"
-                    value={data.quote}
-                    onChange={this.onChange}
-                  />
-                  {errors.quote && <InlineError text={errors.quote} />}
-                </Form.Field>
-
-                <Form.Field error={!!errors.instructions}>
-                  <label htmlFor="instructions">Instructions</label>
-                  <TextArea
-                    autoHeight
-                    id="instructions"
-                    name="instructions"
-                    placeholder="Instructions"
-                    value={data.instructions}
-                    onChange={this.onChange}
-                  />
-                  {errors.instructions && (
-                    <InlineError text={errors.instructions} />
-                  )}
-                </Form.Field>*/}
               </Grid.Column>
 
               {/*<Grid.Column>
@@ -407,13 +320,11 @@ class DrinkForm extends React.Component {
 
             <Grid.Row>
               <Grid.Column>
-                <Form.Button primary>Save</Form.Button>
+                <Button primary>Save</Button>
+                {data._id && (
+                  <Button type="button" onClick={this.onDelete}>Delete</Button>
+                )}
               </Grid.Column>
-              {data._id && (
-                <Grid.Column>
-                  <Form.Button onClick={this.onDelete}>Delete</Form.Button>
-                </Grid.Column>
-              )}
             </Grid.Row>
           </Grid>
         </Form>

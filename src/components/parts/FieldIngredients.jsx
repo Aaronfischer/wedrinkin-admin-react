@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Icon } from 'semantic-ui-react';
+import ConfirmationAction from './ConfirmationAction';
 
 class FieldIngredients extends Component {
   render() {
@@ -43,7 +44,7 @@ class FieldIngredients extends Component {
                     i
                   )}
                 />
-                <Button
+                {/* <Button
                   type="button"
                   icon
                   onClick={onremove.bind(
@@ -53,7 +54,16 @@ class FieldIngredients extends Component {
                   )}
                 >
                   <Icon name="close" />
-                </Button>
+                </Button> */}
+                <ConfirmationAction
+                  buttonClass="ui icon button"
+                  passAction={onremove.bind(
+                    this,
+                    'ingredients',
+                    i
+                  )}>
+                    <Icon name="close" />
+                </ConfirmationAction>
               </Form.Group>
             );
           })}

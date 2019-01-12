@@ -5,8 +5,7 @@ import DrinkForm from '../forms/DrinkForm';
 
 class DrinkPage extends Component {
   state = {
-    data: null,
-    loading: false,
+    drink: null,
   };
 
   async loadDrink(id) {
@@ -25,11 +24,11 @@ class DrinkPage extends Component {
   };
 
   render() {
-    const { drink } = this.state;
+    const { drink, loading, errors } = this.state;
     return (
       <Container>
         <Header as='h1'>Drink</Header>
-        {drink && <DrinkForm submit={this.saveDrink} delete={this.removeDrink} drink={drink} />}
+        {drink && <DrinkForm drink={drink} />}
       </Container>
     );
   }

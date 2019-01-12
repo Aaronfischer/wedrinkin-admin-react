@@ -29,6 +29,24 @@
 .small {
   font-size: 85%; }
 
+.ui.form .fields .ui.button {
+  height: 35px;
+  align-self: flex-end; }
+
+.ui.popup {
+  font-size: 11px;
+  text-align: center; }
+  .ui.popup .link {
+    display: inline-block;
+    padding: 0 4px; }
+
+.confirm-wrapper {
+  display: inline-block;
+  width: 70px;
+  min-width: 70px;
+  height: 35px;
+  align-self: flex-end; }
+
 /*.ui.inverted.menu.bg-dark{
   background-color:black !important;
 }*/
