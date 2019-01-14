@@ -3,7 +3,7 @@ import { Container, Header } from 'semantic-ui-react';
 import { fetchWrapper } from '../../utils/fetch-wrapper';
 import DrinkForm from '../forms/DrinkForm';
 
-class DrinkPage extends Component {
+class DrinksEditPage extends Component {
   state = {
     drink: null,
   };
@@ -34,4 +34,4 @@ class DrinkPage extends Component {
   }
 }
 
-export default DrinkPage;
+export default DrinksEditPage;

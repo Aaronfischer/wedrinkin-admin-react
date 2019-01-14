@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TopNavigation from './components/navigation/TopNavigation';
 import HomePage from './components/pages/HomePage';
 import DrinksPage from './components/pages/DrinksPage';
@@ -24,16 +24,18 @@ class App extends Component {
                   exact
                   component={DrinksPage}
                 />
-                <Route
-                  path="/drinks/:id"
-                  exact
-                  component={DrinksEditPage}
-                />
-                <Route
-                  path="/drinks/add"
-                  exact
-                  component={DrinksAddPage}
-                />
+                <Switch>
+                  <Route
+                    path="/drinks/add"
+                    exact
+                    component={DrinksAddPage}
+                  />
+                  <Route
+                    path="/drinks/:id"
+                    exact
+                    component={DrinksEditPage}
+                  />
+                </Switch>
 
               </Grid.Column>
             </Grid.Row>

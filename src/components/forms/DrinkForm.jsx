@@ -10,8 +10,10 @@ import {
   TextArea,
   Dropdown
 } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 import FormField from '../parts/FormField';
 import FieldIngredients from '../parts/FieldIngredients';
+import ConfirmationAction from '../parts/ConfirmationAction';
 import { tempOptions } from '../common/temp-options';
 import { timeOptions } from '../common/time-options';
 import { fetchWrapper } from '../../utils/fetch-wrapper';
@@ -111,7 +113,6 @@ class DrinkForm extends React.Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    console.log('this.state', this.state, e);
     const errors = this.validate(this.state.data);
     this.setState({
       isFailure: true,
@@ -124,7 +125,6 @@ class DrinkForm extends React.Component {
       //   .catch(error =>
       //     this.setState({ errors: error.response.data.errors, loading: false })
       //   );
-      console.log('SAVE THE DATA', this.state.data);
       try {
         let url = `${process.env.REACT_APP_API_HOST}/drinks`;
         let method = 'POST';
@@ -145,13 +145,11 @@ class DrinkForm extends React.Component {
               throw json;
             }
             this.reset();
-            console.log('reset i hope');
             this.setState({
               isSuccess: true,
               data: json.drinks,
             });
-            // router.navigate(`/drinks/${json.drinks._id}/edit`);
-            // return router.resume();
+            this.props.history.push(`/drinks/${json.drinks._id}`);
           });
         }, (error) => { throw error; });
       } catch(error) {
@@ -164,14 +162,47 @@ class DrinkForm extends React.Component {
     }
   };
 
-  onDelete = e => {
+  onDelete = async (e) => {
     e.preventDefault();
+    console.log('this.state.data.drink', this.state.data);
+    const drink = this.state.data;
+    const id = drink._id;
     this.setState({ isLoading: true });
-    this.props
-      .delete(this.state.data)
-      .catch(error =>
-        this.setState({ errors: error.response.data.errors, isLoading: false })
-      );
+    // this.props
+    //   .delete(this.state.data)
+    //   .catch(error =>
+    //     this.setState({ errors: error.response.data.errors, isLoading: false })
+    //   );
+    try {
+      await fetchWrapper(`${process.env.REACT_APP_API_HOST}/drinks/${id}`, {
+        method: 'DELETE',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ drink: drink }),
+      }).then(data => {
+        if (data.status === 200) {
+          this.setState({
+            isLoading: false,
+          });
+          return this.props.history.push('/drinks');
+        }
+        return data.json().then((json) => {
+          if (data.status === 400) {
+            throw json;
+          }
+        });
+      }, (error) => { throw error; });
+    } catch(error) {
+      this.reset();
+      this.setState({
+        isLoading: false,
+        isFailure: true,
+        errors: error.errors,
+      });
+    }
   };
 
   removeIngredient = (field, index, e) => {
@@ -322,7 +353,11 @@ class DrinkForm extends React.Component {
               <Grid.Column>
                 <Button primary>Save</Button>
                 {data._id && (
-                  <Button type="button" onClick={this.onDelete}>Delete</Button>
+                  <ConfirmationAction
+                    buttonClass="button"
+                    passAction={this.onDelete}>
+                      Delete
+                  </ConfirmationAction>
                 )}
               </Grid.Column>
             </Grid.Row>
@@ -333,4 +368,4 @@ class DrinkForm extends React.Component {
   }
 }
 
-export default DrinkForm;
+export default withRouter(DrinkForm);
